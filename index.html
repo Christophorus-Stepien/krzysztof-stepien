@@ -1099,32 +1099,32 @@
 	  }
 	</script>
 
-	<script>
-	document.getElementById('contactForm').addEventListener('submit', async function (e) {
-	  e.preventDefault();
+<script>
+document.getElementById('contactForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
 
-	  const form = e.target;
-	  const status = document.getElementById('formStatus');
+  const form = e.target;
+  const status = document.getElementById('formStatus');
 
-	  const data = Object.fromEntries(new FormData(form).entries());
+  status.textContent = 'Wysyłanie...';
 
-	  status.textContent = 'Wysyłanie...';
+  const formData = new FormData(form);
 
-	  try {
-		const response = await fetch('https://script.google.com/macros/s/AKfycbzu5bizduaUcJH1zSNOHAadWNuSzxyW9HZRm9QBv0eMpVOOyhQ30B2841sQyFlCm8X4/exec', {
-		  method: 'POST',
-		  mode: 'no-cors', // GAS nie zwraca CORS headers
-		  body: JSON.stringify(data),
-		  headers: { 'Content-Type': 'application/json' },
-		});
+  try {
+    await fetch('https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec', {
+      method: 'POST',
+      body: formData
+    });
 
-		status.textContent = 'Dziękuję! Wiadomość została wysłana.';
-		form.reset();
-	  } catch (error) {
-		status.textContent = 'Wystąpił błąd. Spróbuj ponownie.';
-		console.error(error);
-	  }
-	});
-	</script>
+    status.textContent = 'Dziękuję! Wiadomość została wysłana.';
+    form.reset();
+  } catch (error) {
+    console.error(error);
+    status.textContent = 'Wystąpił błąd. Spróbuj ponownie.';
+  }
+});
+</script>
+
 </body>
 </html>
+
